@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package hello;
+package hyperapp;
 
 import java.util.Map;
 
+import hyperapp.domain.user.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(properties = {"management.port=0"})
-public class HelloWorldApplicationTests {
+public class HyperappApplicationTests {
 
 	@LocalServerPort
 	private int port;
@@ -51,12 +52,24 @@ public class HelloWorldApplicationTests {
 	private TestRestTemplate testRestTemplate;
 
 	@Test
-	public void shouldReturn200WhenSendingRequestToController() throws Exception {
+	public void shouldReturn200WhenSendingRequestToTodoController() throws Exception {
 		@SuppressWarnings("rawtypes")
 		ResponseEntity<Map> entity = this.testRestTemplate.getForEntity(
-				"http://localhost:" + this.port + "/hello-world", Map.class);
+				"http://localhost:" + this.port + "/todos", Map.class);
 
 		then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+	}
+
+	@Test
+	public void shouldReturn200WhenSendingRequestToLoginController() throws Exception {
+		User user = new User("john", "123", "123");
+		@SuppressWarnings("rawtypes")
+		ResponseEntity<User> entity = this.testRestTemplate.postForEntity(
+				"http://localhost:" + this.port + "/login", user, User.class);
+
+		then(entity.getStatusCode()).isEqualTo(HttpStatus.OK);
+		then(entity.getBody().getName()).isEqualTo("john");
+		then(entity.getBody().getToken()).isNotEqualTo("123");
 	}
 
 	@Test
