@@ -19,6 +19,7 @@ public class HyperappApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/login").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/todos").allowedOrigins("https://elastic-leakey-56319e.netlify.com");
 			}
 		};
 	}
