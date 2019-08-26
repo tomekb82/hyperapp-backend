@@ -10,7 +10,15 @@ public class TodoService {
         this.repository = repository;
     }
 
+    public Todo get(String id){
+        return repository.get(id) ;
+    }
+
     public List<Todo> getAll() {
         return repository.getAll();
+    }
+
+    public Todo create(Todo todo){
+        return repository.create(todo);
     }
 }

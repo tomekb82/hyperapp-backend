@@ -18,7 +18,7 @@ public class HyperappApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/hyperapp-world").allowedOrigins("http://localhost:8080");
+				registry.addMapping("/login").allowedOrigins("http://localhost:8080");
 			}
 		};
 	}
